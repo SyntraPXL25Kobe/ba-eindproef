@@ -1,3 +1,44 @@
+=== project scope ===
+
+# Studiekeuze Platform — Projectscope
+
+## MVP Scope (enkel dit bouwen)
+
+Genereer **uitsluitend** code die past binnen de MVP-scope. Voeg geen extra features toe tenzij expliciet gevraagd.
+
+### Gebruikersrollen
+- **Gast**: studies, beroepen en evenementen bekijken
+- **Student**: profiel, favorieten, professionals contacteren, evenementen volgen
+- **Professional**: profiel, vragen beantwoorden, connecties, evenementen publiceren
+- **Admin**: gebruikersbeheer, moderatie, statistieken, contentbeheer
+
+### Kernfunctionaliteiten (MVP)
+- Registratie & login (email + Google OAuth)
+- Profielbeheer (student & professional)
+- Interesses & studierichting (student)
+- Zoeken naar studies, beroepen en professionals
+- Detailpagina's voor studies en beroepen
+- Favorieten beheren
+- Connectieverzoeken (versturen / accepteren / weigeren)
+- Evenementen bekijken, aanmaken (professional) en inschrijven (student)
+- Persoonlijke agenda
+- Chat (student ↔ professional)
+- Notificaties (connecties, berichten, events)
+- Review / Kudos systeem
+- Gebruiker rapporteren
+- Export persoonlijke gegevens (GDPR)
+
+### Databasemodellen (MVP)
+`users` · `profiles` · `studies` · `careers` · `sectors` · `events` · `event_registrations` · `connections` · `messages` · `reviews` · `notifications` · `reports`
+
+### Niet in scope (geen code voor genereren)
+- AI-aanbevelingen / matching-algoritme
+- Mobiele app (iOS/Android)
+- OAuth buiten Google
+- Betaalsysteem
+- Uitgebreide analytics
+- Video-/audiogesprekken
+
 <laravel-boost-guidelines>
 === foundation rules ===
 
