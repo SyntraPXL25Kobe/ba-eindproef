@@ -95,27 +95,9 @@ php artisan wayfinder:generate
 
 De gegenereerde bestanden komen standaard terecht in `resources/js/actions/` en `resources/js/routes/`. Commit deze bestanden **mee** in Git zodat het team altijd gesynchroniseerde types heeft.
 
-> **Tip:** Voeg het genereren toe aan een `post-autoload-dump` script in `composer.json` om het automatisch te laten draaien na `composer install`:
->
-> ```json
-> "scripts": {
->     "post-autoload-dump": [
->         "php artisan wayfinder:generate"
->     ]
-> }
-> ```
-
 ---
 
-## Stap 7 — Assets bouwen
-
-**Ontwikkeling** (met hot-reload via Vite):
-
-```bash
-npm run dev
-```
-
-**Productie** (geoptimaliseerde build):
+## Stap 7 — Assets bouwen (productie)
 
 ```bash
 npm run build
@@ -126,12 +108,8 @@ npm run build
 ## Stap 8 — Lokale server starten
 
 ```bash
-php artisan serve
+composer run dev
 ```
-
-De applicatie is nu bereikbaar op [http://localhost:8000](http://localhost:8000).
-
-> Als je **Laravel Herd** gebruikt, sla dan stap 8 over. Herd registreert automatisch een `.test`-domein op basis van de mapnaam.
 
 ---
 
