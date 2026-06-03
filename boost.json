@@ -3,5 +3,5 @@
         "claude_code"
     ],
     "cloud": false,
-    "guidelines": true
+    "guidelines": false
 }
