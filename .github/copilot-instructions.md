@@ -42,10 +42,6 @@ Genereer **uitsluitend** code die past binnen de MVP-scope hieronder. Voeg geen 
 - Dashboard met statistieken
 - Data exporteren (CSV)
 
-## Database­modellen (MVP)
-
-`users` · `profiles` · `studies` · `careers` · `sectors` · `events` · `event_registrations` · `connections` · `messages` · `reviews` · `notifications` · `reports`
-
 ## Werkverdeling (team van 3)
 
 - **S1** — Backend, database, API, auth, rollen
