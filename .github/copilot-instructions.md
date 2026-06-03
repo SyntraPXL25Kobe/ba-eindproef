@@ -32,7 +32,6 @@ Genereer **uitsluitend** code die past binnen de MVP-scope hieronder. Voeg geen 
 - Notificaties (connecties, berichten, events)
 - Review / Kudos systeem
 - Gebruiker rapporteren
-- Export persoonlijke gegevens (GDPR)
 
 ### Admin-paneel
 
@@ -49,7 +48,7 @@ Genereer **uitsluitend** code die past binnen de MVP-scope hieronder. Voeg geen 
 
 ## Werkverdeling (team van 3)
 
-- **S1** — Backend, database, API, auth, rollen, GDPR
+- **S1** — Backend, database, API, auth, rollen
 - **S2** — Frontend, zoek­pagina's, profielen, UI­componenten
 - **S3** — Chat, events, notificaties, admin­panel
 

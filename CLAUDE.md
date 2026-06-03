@@ -26,7 +26,6 @@ Genereer **uitsluitend** code die past binnen de MVP-scope. Voeg geen extra feat
 - Notificaties (connecties, berichten, events)
 - Review / Kudos systeem
 - Gebruiker rapporteren
-- Export persoonlijke gegevens (GDPR)
 
 ### Databasemodellen (MVP)
 `users` · `profiles` · `studies` · `careers` · `sectors` · `events` · `event_registrations` · `connections` · `messages` · `reviews` · `notifications` · `reports`
