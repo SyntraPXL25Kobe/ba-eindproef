@@ -1,0 +1,321 @@
+Project studiekeuze_platform {
+  database_type: "MySQL"
+  Note: "Vereenvoudigd MVP-schema voor Studiekeuze Platform"
+}
+
+Enum user_role {
+  guest
+  student
+  professional
+  admin
+}
+
+Enum profile_visibility {
+  public
+  connections_only
+  private
+}
+
+Enum connection_status {
+  pending
+  accepted
+  declined
+}
+
+Enum event_visibility {
+  public
+  connections_only
+  private
+}
+
+Enum event_status {
+  draft
+  published
+  cancelled
+  completed
+}
+
+Enum registration_status {
+  registered
+  cancelled
+  attended
+}
+
+Enum favorite_type {
+  study
+  career
+  professional
+}
+
+Enum notification_type {
+  connection
+  message
+  event
+  review
+  report
+  system
+}
+
+Enum report_status {
+  open
+  in_review
+  resolved
+  dismissed
+}
+
+Table users {
+  id bigint [pk, increment]
+  name varchar(255) [not null]
+  email varchar(255) [not null, unique]
+  email_verified_at timestamp
+  password varchar(255) [not null]
+  role user_role [not null, default: 'student']
+  remember_token varchar(100)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table profiles {
+  id bigint [pk, increment]
+  user_id bigint [not null, unique]
+  avatar_path varchar(2048)
+  bio text
+  city varchar(120)
+  country varchar(120)
+  visibility profile_visibility [not null, default: 'public']
+  school_name varchar(255)
+  study_level varchar(100)
+  interests_text text
+  job_title varchar(255)
+  company_name varchar(255)
+  years_experience smallint
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table sectors {
+  id bigint [pk, increment]
+  name varchar(255) [not null, unique]
+  slug varchar(255) [not null, unique]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table organizations {
+  id bigint [pk, increment]
+  name varchar(255) [not null, unique]
+  website varchar(2048)
+  sector_id bigint
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table studies {
+  id bigint [pk, increment]
+  name varchar(255) [not null]
+  slug varchar(255) [not null, unique]
+  sector_id bigint
+  level varchar(100)
+  description text
+  duration_months int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table careers {
+  id bigint [pk, increment]
+  name varchar(255) [not null]
+  slug varchar(255) [not null, unique]
+  sector_id bigint
+  description text
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table career_study {
+  career_id bigint [not null]
+  study_id bigint [not null]
+  created_at timestamp
+
+  Indexes {
+    (career_id, study_id) [unique]
+    study_id
+  }
+}
+
+Table favorites {
+  id bigint [pk, increment]
+  user_id bigint [not null]
+  type favorite_type [not null]
+  target_id bigint [not null]
+  created_at timestamp
+
+  Indexes {
+    (user_id, type, target_id) [unique]
+    (type, target_id)
+  }
+
+  Note: "target_id verwijst naar studies.id, careers.id of users.id op basis van type"
+}
+
+Table connections {
+  id bigint [pk, increment]
+  requester_id bigint [not null]
+  receiver_id bigint [not null]
+  status connection_status [not null, default: 'pending']
+  responded_at timestamp
+  created_at timestamp
+  updated_at timestamp
+
+  Indexes {
+    (requester_id, receiver_id) [unique]
+    (receiver_id, status)
+  }
+}
+
+Table messages {
+  id bigint [pk, increment]
+  connection_id bigint [not null]
+  sender_id bigint [not null]
+  body text [not null]
+  read_at timestamp
+  created_at timestamp
+  updated_at timestamp
+
+  Indexes {
+    (connection_id, created_at)
+    sender_id
+  }
+}
+
+Table events {
+  id bigint [pk, increment]
+  creator_user_id bigint [not null]
+  organization_id bigint
+  title varchar(255) [not null]
+  slug varchar(255) [not null, unique]
+  description text
+  starts_at timestamp [not null]
+  ends_at timestamp [not null]
+  location_text varchar(255)
+  capacity int
+  visibility event_visibility [not null, default: 'public']
+  status event_status [not null, default: 'draft']
+  created_at timestamp
+  updated_at timestamp
+
+  Indexes {
+    (starts_at, status)
+    creator_user_id
+  }
+}
+
+Table event_registrations {
+  id bigint [pk, increment]
+  event_id bigint [not null]
+  user_id bigint [not null]
+  status registration_status [not null, default: 'registered']
+  registered_at timestamp [not null]
+  cancelled_at timestamp
+  created_at timestamp
+  updated_at timestamp
+
+  Indexes {
+    (event_id, user_id) [unique]
+    (user_id, status)
+  }
+}
+
+Table reviews {
+  id bigint [pk, increment]
+  reviewer_user_id bigint [not null]
+  reviewee_user_id bigint [not null]
+  connection_id bigint [not null, unique]
+  rating tinyint [not null]
+  comment text
+  is_public boolean [not null, default: true]
+  created_at timestamp
+  updated_at timestamp
+
+  Indexes {
+    reviewer_user_id
+    reviewee_user_id
+  }
+}
+
+Table notifications {
+  id bigint [pk, increment]
+  user_id bigint [not null]
+  type notification_type [not null]
+  title varchar(255) [not null]
+  body text
+  subject_type varchar(120)
+  subject_id bigint
+  read_at timestamp
+  created_at timestamp
+  updated_at timestamp
+
+  Indexes {
+    (user_id, read_at)
+    (subject_type, subject_id)
+  }
+
+  Note: "subject_type + subject_id is polymorphic"
+}
+
+Table reports {
+  id bigint [pk, increment]
+  reporter_user_id bigint [not null]
+  reported_user_id bigint
+  subject_type varchar(120)
+  subject_id bigint
+  reason text [not null]
+  status report_status [not null, default: 'open']
+  handled_by bigint
+  handled_at timestamp
+  created_at timestamp
+  updated_at timestamp
+
+  Indexes {
+    (status, created_at)
+    reporter_user_id
+    reported_user_id
+    handled_by
+  }
+
+  Note: "subject_type + subject_id is polymorphic"
+}
+
+Ref: profiles.user_id > users.id [delete: cascade]
+
+Ref: organizations.sector_id > sectors.id [delete: set null]
+
+Ref: studies.sector_id > sectors.id [delete: set null]
+Ref: careers.sector_id > sectors.id [delete: set null]
+
+Ref: career_study.career_id > careers.id [delete: cascade]
+Ref: career_study.study_id > studies.id [delete: cascade]
+
+Ref: favorites.user_id > users.id [delete: cascade]
+
+Ref: connections.requester_id > users.id [delete: cascade]
+Ref: connections.receiver_id > users.id [delete: cascade]
+
+Ref: messages.connection_id > connections.id [delete: cascade]
+Ref: messages.sender_id > users.id [delete: cascade]
+
+Ref: events.creator_user_id > users.id [delete: cascade]
+Ref: events.organization_id > organizations.id [delete: set null]
+
+Ref: event_registrations.event_id > events.id [delete: cascade]
+Ref: event_registrations.user_id > users.id [delete: cascade]
+
+Ref: reviews.reviewer_user_id > users.id [delete: cascade]
+Ref: reviews.reviewee_user_id > users.id [delete: cascade]
+Ref: reviews.connection_id > connections.id [delete: cascade]
+
+Ref: notifications.user_id > users.id [delete: cascade]
+
+Ref: reports.reporter_user_id > users.id [delete: cascade]
+Ref: reports.reported_user_id > users.id [delete: set null]
+Ref: reports.handled_by > users.id [delete: set null]
