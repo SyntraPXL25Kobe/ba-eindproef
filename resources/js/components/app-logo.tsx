@@ -2,9 +2,8 @@ import AppLogoIcon from '@/components/app-logo-icon';
 import { usePage } from '@inertiajs/react';
 
 export default function AppLogo() {
-    const page = usePage();
+    const { name } = usePage().props;
 
-    const { name } = page.props;
     return (
         <>
             <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
