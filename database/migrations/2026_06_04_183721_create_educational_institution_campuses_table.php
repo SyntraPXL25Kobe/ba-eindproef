@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->timestamps();
+
+            $table->index(['educational_institution_id', 'name'], 'eic_institution_id_name_idx');
         });
     }
 
