@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('program_offerings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('program_id')->constrained('programs')->cascadeOnDelete();
+            $table->foreignId('campus_id')->constrained('educational_institution_campuses')->cascadeOnDelete();
+            $table->foreignId('delivery_mode_id')->constrained('delivery_modes')->cascadeOnDelete();
             $table->timestamps();
+
+            $table->unique(
+                ['program_id', 'campus_id', 'delivery_mode_id'],
+                'po_program_campus_delivery_unique'
+            );
+            $table->index(['campus_id', 'delivery_mode_id']);
         });
     }
 
