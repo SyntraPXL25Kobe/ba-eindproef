@@ -1,4 +1,5 @@
 import { Form, Head } from '@inertiajs/react';
+import { FaGoogle } from 'react-icons/fa';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
@@ -6,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
+import { redirect } from '@/routes/google';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
@@ -95,6 +98,21 @@ export default function Login({ status, canResetPassword }: Props) {
                                 Sign up
                             </TextLink>
                         </div>
+                        <Separator />
+                        <a
+                            href={redirect.url()}
+                            className="w-full"
+                            tabIndex={5}
+                        >
+                            <Button
+                                variant="outline"
+                                className="w-full"
+                                type="button"
+                            >
+                                <FaGoogle />
+                                Login with Google
+                            </Button>
+                        </a>
                     </>
                 )}
             </Form>
