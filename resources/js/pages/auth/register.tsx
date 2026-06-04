@@ -8,6 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
+import { redirect } from '@/routes/google';
+import { FaGoogle } from 'react-icons/fa';
+import { Separator } from '@/components/ui/separator';
 
 type Props = {
     passwordRules: string;
@@ -107,6 +110,21 @@ export default function Register({ passwordRules }: Props) {
                                 Log in
                             </TextLink>
                         </div>
+                        <Separator />
+                        <a
+                            href={redirect.url()}
+                            className="w-full"
+                            tabIndex={5}
+                        >
+                            <Button
+                                variant="outline"
+                                className="w-full"
+                                type="button"
+                            >
+                                <FaGoogle />
+                                Login with Google
+                            </Button>
+                        </a>
                     </>
                 )}
             </Form>

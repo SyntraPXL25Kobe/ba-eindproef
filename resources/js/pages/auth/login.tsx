@@ -10,6 +10,9 @@ import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
+import { redirect } from '@/routes/google';
+import { Separator } from '@/components/ui/separator';
+import { FaGoogle } from 'react-icons/fa';
 
 type Props = {
     status?: string;
@@ -95,6 +98,21 @@ export default function Login({ status, canResetPassword }: Props) {
                                 Sign up
                             </TextLink>
                         </div>
+                        <Separator />
+                        <a
+                            href={redirect.url()}
+                            className="w-full"
+                            tabIndex={5}
+                        >
+                            <Button
+                                variant="outline"
+                                className="w-full"
+                                type="button"
+                            >
+                                <FaGoogle />
+                                Login with Google
+                            </Button>
+                        </a>
                     </>
                 )}
             </Form>
