@@ -1,7 +1,7 @@
 import AppLogoIcon from '@/components/app-logo-icon';
 import type { AuthLayoutProps } from '@/types';
 
-export default function AuthSimpleLayout({
+export default function AuthLayout({
     children,
     title,
     description,
