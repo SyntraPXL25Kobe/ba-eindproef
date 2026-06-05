@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['code', 'name'])]
-class DeliveryMode extends Model
+#[Fillable(['country_code', 'name'])]
+class Region extends Model
 {
-    public function programOfferings(): HasMany
+    public function addresses(): HasMany
     {
-        return $this->hasMany(ProgramOffering::class);
+        return $this->hasMany(Address::class);
     }
 }

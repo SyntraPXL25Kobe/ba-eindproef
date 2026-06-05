@@ -6,17 +6,22 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'birth_date', 'current_education_level_id'])]
-class StudentProfiles extends Model
+#[Fillable(['conversation_id', 'user_id', 'send_at', 'body'])]
+class Message extends Model
 {
     protected function casts(): array
     {
         return [
-            'birth_date' => 'date',
+            'send_at' => 'datetime',
         ];
     }
 
-    public function user(): BelongsTo
+    public function conversation(): BelongsTo
+    {
+        return $this->belongsTo(Conversation::class);
+    }
+
+    public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['company_id', 'address_id', 'name', 'is_head_office'])]
-class CompanyLocation extends Model
+#[Fillable(['student_profile_id', 'company_id'])]
+class StudentFavoriteCompany extends Model
 {
-    protected function casts(): array
+    public function student(): BelongsTo
     {
-        return [
-            'house_number' => 'integer',
-        ];
+        return $this->belongsTo(StudentProfile::class);
     }
 
     public function company(): BelongsTo

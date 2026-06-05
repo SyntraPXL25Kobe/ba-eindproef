@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['code', 'name'])]
-class DeliveryMode extends Model
+#[Fillable(['name', 'code'])]
+class EventType extends Model
 {
-    public function programOfferings(): HasMany
+    public function events(): HasMany
     {
-        return $this->hasMany(ProgramOffering::class);
+        return $this->hasMany(Event::class);
     }
 }

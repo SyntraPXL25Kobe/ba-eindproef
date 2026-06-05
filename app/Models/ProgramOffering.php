@@ -23,4 +23,9 @@ class ProgramOffering extends Model
     {
         return $this->belongsTo(DeliveryMode::class);
     }
+
+    public function educationalInstitution(): BelongsTo
+    {
+        return $this->belongsTo(EducationalInstitution::class);
+    }
 }

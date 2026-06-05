@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable('street', 'city', 'postal_code', 'house_number', 'region_id')]
-class Address extends Model
+#[Fillable(['student_profile_id', 'region_id'])]
+class StudentDesiredRegion extends Model
 {
-    protected function casts(): array
+    public function student(): BelongsTo
     {
-        return [
-            'house_number' => 'integer',
-        ];
+        return $this->belongsTo(StudentProfile::class);
     }
 
     public function region(): BelongsTo

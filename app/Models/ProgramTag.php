@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-#[Fillable(['program_id', 'code', 'name', 'description'])]
-class ProgramSpecialization extends Model
+#[Fillable(['program_id', 'tag_id'])]
+class ProgramTag extends Model
 {
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class);
     }
 
-    public function tags(): BelongsToMany
+    public function tag(): BelongsTo
     {
-        return $this->belongsToMany(SpecializationTag::class);
+        return $this->belongsTo(Tag::class);
     }
 }
