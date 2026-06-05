@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProfileController extends Controller
@@ -18,7 +17,7 @@ class ProfileController extends Controller
     {
         // We voegen hier nog de database-logica (het Model) toe
         return Inertia::render('profile/show', [
-            'userId' => $id
+            'userId' => $id,
         ]);
     }
 }
