@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('education_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique()->notNullable();
-            $table->string('name')->notNullable();
-            $table->smallInteger('order')->notNullable();
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->smallInteger('order');
             $table->timestamps();
         });
     }

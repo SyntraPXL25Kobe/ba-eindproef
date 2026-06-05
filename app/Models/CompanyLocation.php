@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['company_id', 'address_id', 'name', 'is_head_office'])]
 class CompanyLocation extends Model
 {
-    protected $casts = [
-        'is_head_office' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'house_number' => 'integer',
+        ];
+    }
 
     public function company(): BelongsTo
     {

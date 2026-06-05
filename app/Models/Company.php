@@ -12,31 +12,40 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['legal_name', 'display_name', 'description', 'website_url', 'logo_url', 'email', 'phone', 'status'])]
 class Company extends Model
 {
-
-    /** @use HasFactory<\Database\Factories\CompanyFactory> */
-    use HasFactory;
-
-    protected $casts = [
-        'status' => CompanyStatus::class,
-    ];
-
-    /**
-     * The locations (offices/branches) belonging to this company.
-     *
-     * @return HasMany<CompanyLocation, $this>
-     */
-    public function locations(): HasMany
+    protected function casts(): array
     {
-        return $this->hasMany(CompanyLocation::class);
+        return [
+            'status' => CompanyStatus::class,
+        ];
     }
 
-    /**
-     * The occupations this company hires for.
-     *
-     * @return BelongsToMany<Occupation, $this>
-     */
+    public function members(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function locations(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function conversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class);
+    }
+
     public function occupations(): BelongsToMany
     {
-        return $this->belongsToMany(Occupation::class, 'company_occupations');
+        return $this->belongsToMany(CompanyOccupation::class);
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(CompanyTag::class);
     }
 }

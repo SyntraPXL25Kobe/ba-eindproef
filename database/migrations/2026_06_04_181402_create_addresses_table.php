@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('city')->notNullable();
             $table->string('postal_code')->notNullable();
             $table->smallInteger('house_number')->notNullable();
+            $table->foreignId('region_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

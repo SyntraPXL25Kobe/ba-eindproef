@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->timestamps();
 
-            $table->index('status', 'display_name');
+            $table->index(['status', 'display_name']);
         });
     }
 
