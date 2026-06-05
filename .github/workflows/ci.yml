@@ -18,46 +18,27 @@ permissions:
   contents: write
 
 jobs:
-  lint-php:
-    name: PHP Linting
+  lint-and-format:
+    name: Lint & Format (PHP & Frontend)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      # Zorg dat we altijd de juiste HEAD ref uitchecken, zeker bij PR's
+      - uses: actions/checkout@v4
         with:
-          persist-credentials: true  # nodig voor de auto-commit
+          ref: ${{ github.head_ref || github.ref_name }}
+          persist-credentials: true
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
 
       - name: Install Composer Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      # 1. PHP Linting & Fiksen
       - name: Run Pint
         run: composer lint
-
-      - name: Commit PHP fixes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'fix: code style (pint)'
-          commit_options: '--no-verify'
-
-  lint-frontend:
-    name: Frontend Linting & Typechecking
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          persist-credentials: true  # nodig voor de auto-commit
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2
-        with:
-          php-version: '8.4'
-
-      - name: Install Composer Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Generate Wayfinder Types
         run: php artisan wayfinder:generate --with-form
@@ -71,6 +52,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
+      # 2. Frontend Linting, Formatting & Typechecking
       - name: Format Frontend
         run: npm run format
 
@@ -80,8 +62,9 @@ jobs:
       - name: Typecheck Frontend
         run: npm run types:check
 
-      - name: Commit frontend fixes
+      # 3. Één gecombineerde commit voor alle fixes (als die er zijn)
+      - name: Commit fixes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'fix: code style (prettier + wayfinder)'
+          commit_message: 'fix: code style (pint/prettier/eslint)'
           commit_options: '--no-verify'
