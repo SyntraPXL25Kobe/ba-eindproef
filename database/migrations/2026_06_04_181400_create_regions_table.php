@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('regions', function (Blueprint $table) {
             $table->id();
-            $table->string('street')->notNullable();
-            $table->string('city')->notNullable();
-            $table->string('postal_code')->notNullable();
-            $table->smallInteger('house_number')->notNullable();
-            $table->foreignId('region_id')->constrained()->cascadeOnDelete();
+            $table->string('country_code', 2)->notNullable();
+            $table->string('name')->notNullable();
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('regions');
     }
 };
