@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback'])->name('google.callback');
 Route::get('/auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('google.redirect');
@@ -15,10 +16,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/settings.php';
 
-// 1. Profielpagina
-Route::get('/profiel', function () {
-    return Inertia::render('profile/index');
-})->name('profile.index');
+// 1. Profielpagina (Eigen profiel)
+Route::get('/profiel', [ProfileController::class, 'index'])->name('profile.index');
 
 // 2. Favorietenpagina
 Route::get('/favorieten', function () {
@@ -46,10 +45,5 @@ Route::get('/opleiding/{opleiding_id}', function ($opleiding_id) {
     ]);
 })->name('programs.detail');
 
-// Route voor een specifiek profiel
-Route::get('/profiel/{id}', function ($id) {
-    // Hier zou je in een later stadium de gebruiker uit de database halen
-    return Inertia::render('profile/show', [
-        'userId' => $id
-    ]);
-})->name('profile.show');
+// Route voor een specifiek profiel (Ander profiel)
+Route::get('/profiel/{id}', [ProfileController::class, 'show'])->name('profile.show');
