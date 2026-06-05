@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_profile_id')->constrained('student_profiles')->name('sfei_student_profile_id_foreign')->cascadeOnDelete();
             $table->foreignId('educational_institution_id')->constrained('educational_institutions')->name('sfei_educational_institution_id_foreign')->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 

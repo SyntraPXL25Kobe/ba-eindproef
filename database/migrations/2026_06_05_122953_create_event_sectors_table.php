@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->foreignId('sector_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 

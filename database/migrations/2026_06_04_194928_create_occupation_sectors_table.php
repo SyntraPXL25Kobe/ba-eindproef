@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('occupation_id')->constrained('occupations')->cascadeOnDelete();
             $table->foreignId('sector_id')->constrained('sectors')->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 

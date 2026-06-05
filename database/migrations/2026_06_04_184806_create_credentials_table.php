@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('credentials', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->notNullable()->unique();
-            $table->string('name')->notNullable();
+            $table->string('code')->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }

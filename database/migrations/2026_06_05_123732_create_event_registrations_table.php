@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->foreignId('student_profile_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
 
             $table->index(['student_profile_id', 'event_id']);
         });
