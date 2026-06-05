@@ -4,6 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 export default function ProfileIndex() {
+    // 1. Nieuwe array met data (alsof het uit de database komt)
+    const interesses = [
+        "Full Stack Development", 
+        "Laravel", 
+        "WordPress", 
+        "Tailwind CSS",
+        "PHP",
+        "Supabase"
+    ];
+
     return (
         <div className="p-8 max-w-4xl mx-auto space-y-6">
             <Head title="Mijn Profiel" />
@@ -33,9 +43,10 @@ export default function ProfileIndex() {
                     </CardHeader>
                     <CardContent>
                         <div className="flex gap-2 flex-wrap">
-                            <Badge>Full Stack Development</Badge>
-                            <Badge>Cloud Computing</Badge>
-                            <Badge>Cybersecurity</Badge>
+                            {/* 2. Hier gebruiken we .map() om door de array te lopen */}
+                            {interesses.map((interesse, index) => (
+                                <Badge key={index}>{interesse}</Badge>
+                            ))}
                         </div>
                     </CardContent>
                 </Card>
