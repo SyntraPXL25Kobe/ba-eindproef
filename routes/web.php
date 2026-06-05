@@ -50,6 +50,6 @@ Route::get('/opleiding/{opleiding_id}', function ($opleiding_id) {
 Route::get('/profiel/{id}', function ($id) {
     // Hier zou je in een later stadium de gebruiker uit de database halen
     return Inertia::render('profile/show', [
-        'userId' => $id
+        'userId' => $id,
     ]);
 })->name('profile.show');
