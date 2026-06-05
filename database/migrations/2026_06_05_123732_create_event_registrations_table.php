@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('event_registrations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('student_user_id')->constrained('student_profiles')->cascadeOnDelete();
+            $table->foreignId('student_profile_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
-            $table->index(['student_user_id']);
+            $table->index(['student_profile_id', 'event_id']);
         });
     }
 
