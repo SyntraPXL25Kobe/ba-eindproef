@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['student_profile_id', 'company_id'])]
 class StudentFavoriteCompany extends Model
 {
-    public function studentProfile(): BelongsTo
+    public function student(): BelongsTo
     {
         return $this->belongsTo(StudentProfile::class);
     }
