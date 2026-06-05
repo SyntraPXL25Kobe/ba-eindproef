@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable(['user_id', 'birth_date', 'current_education_level_id'])]
-class StudentProfiles extends Model
+class StudentProfile extends Model
 {
     protected function casts(): array
     {
