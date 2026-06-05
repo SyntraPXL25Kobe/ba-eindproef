@@ -34,7 +34,7 @@ Route::get('/interesses', function () {
 // We geven de parameter {categorie_id} door aan de React component
 Route::get('/interesses/{categorie_id}', function ($categorie_id) {
     return Inertia::render('interests/category', [
-        'categoryId' => $categorie_id
+        'categoryId' => $categorie_id,
     ]);
 })->name('interests.category');
 
@@ -42,6 +42,6 @@ Route::get('/interesses/{categorie_id}', function ($categorie_id) {
 // We geven de parameter {opleiding_id} door aan de React component
 Route::get('/opleiding/{opleiding_id}', function ($opleiding_id) {
     return Inertia::render('programs/detail', [
-        'programId' => $opleiding_id
+        'programId' => $opleiding_id,
     ]);
 })->name('programs.detail');
