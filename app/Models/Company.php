@@ -11,6 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['legal_name', 'display_name', 'description', 'website_url', 'logo_url', 'email', 'phone', 'address', 'status'])]
 class Company extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'status' => CompanyStatus::class,
+        ];
+    }
+
     public function members(): HasMany
     {
         return $this->hasMany(User::class);
@@ -40,8 +47,4 @@ class Company extends Model
     {
         return $this->belongsToMany(CompanyTag::class);
     }
-
-    protected $casts = [
-        'status' => CompanyStatus::class,
-    ];
 }

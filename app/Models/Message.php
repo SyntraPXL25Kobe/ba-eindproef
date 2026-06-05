@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable(['conversation_id', 'user_id', 'send_at', 'body'])]
 class Message extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'send_at' => 'datetime',
+        ];
+    }
+
     public function conversation()
     {
         return $this->belongsTo(Conversation::class);
@@ -17,8 +24,4 @@ class Message extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    protected $casts = [
-        'send_at' => 'datetime',
-    ];
 }

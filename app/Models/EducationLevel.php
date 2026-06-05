@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable('code', 'name', 'order')]
 class EducationLevel extends Model
 {
-    protected $cast = [
-        'order' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'order' => 'integer',
+        ];
+    }
 }

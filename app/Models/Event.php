@@ -2,12 +2,23 @@
 
 namespace App\Models;
 
+use App\Enums\EventStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['company_id', 'event_type_id', 'title', 'description', 'start_time', 'end_time', 'is_online', 'online_url', 'address_id', 'status'])]
+#[Fillable(['company_id', 'event_type_id', 'title', 'description', 'start_time', 'end_time', 'is_online', 'online_url', 'adress_id', 'status'])]
 class Event extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'start_time' => 'datetime',
+            'end_time' => 'datetime',
+            'is_online' => 'boolean',
+            'status' => EventStatus::class,
+        ];
+    }
+
     public function eventType()
     {
         return $this->belongsTo(EventType::class);
@@ -22,11 +33,4 @@ class Event extends Model
     {
         return $this->belongsTo(Address::class);
     }
-
-    protected $casts = [
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
-        'is_online' => 'boolean',
-        'status' => EventStatus::class,
-    ];
 }
