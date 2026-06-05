@@ -45,3 +45,11 @@ Route::get('/opleiding/{opleiding_id}', function ($opleiding_id) {
         'programId' => $opleiding_id,
     ]);
 })->name('programs.detail');
+
+// Route voor een specifiek profiel
+Route::get('/profiel/{id}', function ($id) {
+    // Hier zou je in een later stadium de gebruiker uit de database halen
+    return Inertia::render('profile/show', [
+        'userId' => $id
+    ]);
+})->name('profile.show');
