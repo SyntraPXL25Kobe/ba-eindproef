@@ -30,7 +30,7 @@ class CompanyFactory extends Factory
             'logo_url' => null,
             'email' => fake()->companyEmail(),
             'phone' => fake()->numerify('+32 ## ## ## ##'),
-            'status' => CompanyStatus::Pending,
+            'status' => CompanyStatus::PENDING,
         ];
     }
 
@@ -40,7 +40,7 @@ class CompanyFactory extends Factory
     public function approved(): static
     {
         return $this->state(fn (array $attributes): array => [
-            'status' => CompanyStatus::Approved,
+            'status' => CompanyStatus::APPROVED,
         ]);
     }
 
@@ -50,7 +50,7 @@ class CompanyFactory extends Factory
     public function rejected(): static
     {
         return $this->state(fn (array $attributes): array => [
-            'status' => CompanyStatus::Rejected,
+            'status' => CompanyStatus::REJECTED,
         ]);
     }
 
@@ -60,7 +60,7 @@ class CompanyFactory extends Factory
     public function blocked(): static
     {
         return $this->state(fn (array $attributes): array => [
-            'status' => CompanyStatus::Blocked,
+            'status' => CompanyStatus::BLOCKED,
         ]);
     }
 }
