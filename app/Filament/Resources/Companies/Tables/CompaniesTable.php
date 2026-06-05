@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Companies\Tables;
 
+use App\Enums\CompanyStatus;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class CompaniesTable
@@ -14,13 +16,9 @@ class CompaniesTable
     {
         return $table
             ->columns([
-                TextColumn::make('legal_name')
-                    ->searchable(),
                 TextColumn::make('display_name')
                     ->searchable(),
-                TextColumn::make('website_url')
-                    ->searchable(),
-                TextColumn::make('logo_url')
+                TextColumn::make('legal_name')
                     ->searchable(),
                 TextColumn::make('email')
                     ->label('Email address')
@@ -29,7 +27,12 @@ class CompaniesTable
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->searchable(),
+                    ->color(fn (CompanyStatus $state): string => match ($state) {
+                        CompanyStatus::APPROVED => 'success',
+                        CompanyStatus::PENDING => 'warning',
+                        CompanyStatus::REJECTED => 'danger',
+                        CompanyStatus::BLOCKED => 'gray',
+                    }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -40,7 +43,8 @@ class CompaniesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options(CompanyStatus::class),
             ])
             ->recordActions([
                 EditAction::make(),
