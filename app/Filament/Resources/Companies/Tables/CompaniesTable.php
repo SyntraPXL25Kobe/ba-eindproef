@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Companies\Tables;
 
 use App\Enums\CompanyStatus;
+use App\Filament\Resources\Companies\CompanyResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -15,6 +16,7 @@ class CompaniesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->recordUrl(fn ($record): string => CompanyResource::getUrl('view', ['record' => $record]))
             ->columns([
                 TextColumn::make('display_name')
                     ->searchable()

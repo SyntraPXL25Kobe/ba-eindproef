@@ -11,6 +11,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\View\View;
 
 class EditCompany extends EditRecord
 {
@@ -19,6 +20,18 @@ class EditCompany extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('viewLog')
+                ->label('View log')
+                ->icon(Heroicon::OutlinedClock)
+                ->color('gray')
+                ->modalHeading('Status change log')
+                ->modalWidth('lg')
+                ->modalContent(fn (): View => view(
+                    'filament.companies.review-log',
+                    ['reviews' => $this->record->reviews()->latest('reviewed_at')->get()],
+                ))
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel('Close'),
             Action::make('approve')
                 ->label('Approve')
                 ->icon(Heroicon::OutlinedCheckCircle)
@@ -82,5 +95,11 @@ class EditCompany extends EditRecord
         };
 
         $notification->send();
+    }
+
+    protected function getCancelFormAction(): Action
+    {
+        return parent::getCancelFormAction()
+            ->url($this->getResource()::getUrl('view', ['record' => $this->record]));
     }
 }
