@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Events\Tables;
 
+use App\Filament\Resources\Events\EventResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -14,6 +15,7 @@ class EventsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->recordUrl(fn ($record): string => EventResource::getUrl('view', ['record' => $record]))
             ->columns([
                 TextColumn::make('company.display_name')
                     ->label('Company')
@@ -57,7 +59,7 @@ class EventsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+
             ])
             ->recordActions([
                 EditAction::make(),
