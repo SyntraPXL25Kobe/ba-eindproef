@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Enums\EventStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['company_id', 'event_type_id', 'title', 'description', 'start_time', 'end_time', 'is_online', 'online_url', 'address_id', 'status'])]
 class Event extends Model
@@ -44,6 +44,7 @@ class Event extends Model
     {
         return $this->hasMany(EventRegistration::class);
     }
+
     public function sectors(): BelongsToMany
     {
         return $this->belongsToMany(Sector::class, 'event_sectors');
