@@ -8,6 +8,7 @@ use App\Filament\Resources\Companies\CompanyResource;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Textarea;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Support\Icons\Heroicon;
 
@@ -58,5 +59,18 @@ class EditCompany extends EditRecord
         app(ReviewCompanyAction::class)->execute($company, $status, auth()->user(), $notes);
 
         $this->refreshFormData(['status']);
+
+        $notification = Notification::make()
+            ->title('Company status updated')
+            ->body("{$company->display_name} is now {$status->value}.");
+
+        match ($status) {
+            CompanyStatus::APPROVED => $notification->icon(Heroicon::OutlinedCheckCircle)->success(),
+            CompanyStatus::REJECTED => $notification->icon(Heroicon::OutlinedXCircle)->danger(),
+            CompanyStatus::BLOCKED => $notification->icon(Heroicon::OutlinedNoSymbol)->color('gray'),
+            default => $notification->info(),
+        };
+
+        $notification->send();
     }
 }
