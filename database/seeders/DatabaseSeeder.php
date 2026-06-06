@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolePermissionSeeder::class);
         $this->call(CompanySeeder::class);
+        $this->call(EventTypeSeeder::class);
+        $this->call(EventSeeder::class);
 
         $adminUser = User::factory()->create([
             'name' => 'Admin Test User',
