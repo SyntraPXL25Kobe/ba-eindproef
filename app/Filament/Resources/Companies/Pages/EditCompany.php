@@ -25,6 +25,7 @@ class EditCompany extends EditRecord
                 ->icon(Heroicon::OutlinedClock)
                 ->color('gray')
                 ->modalHeading('Status change log')
+                ->modalWidth('lg')
                 ->modalContent(fn (): View => view(
                     'filament.companies.review-log',
                     ['reviews' => $this->record->reviews()->latest('reviewed_at')->get()],
