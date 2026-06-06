@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['name', 'code'])]
 class EventType extends Model
 {
+    public $timestamps = false;
+
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);
