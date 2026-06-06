@@ -96,4 +96,10 @@ class EditCompany extends EditRecord
 
         $notification->send();
     }
+
+    protected function getCancelFormAction(): Action
+    {
+        return parent::getCancelFormAction()
+            ->url($this->getResource()::getUrl('view', ['record' => $this->record]));
+    }
 }
