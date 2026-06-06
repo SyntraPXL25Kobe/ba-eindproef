@@ -52,7 +52,9 @@ class CompanyForm
                         Select::make('status')
                             ->options(CompanyStatus::class)
                             ->default('pending')
-                            ->required(),
+                            ->disabled()
+                            ->dehydrated(),
+
                     ]),
             ]);
     }
