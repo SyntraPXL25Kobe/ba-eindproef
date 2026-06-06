@@ -17,16 +17,22 @@ class CompaniesTable
         return $table
             ->columns([
                 TextColumn::make('display_name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('legal_name')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make('email')
                     ->label('Email address')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make('phone')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make('status')
                     ->badge()
+                    ->toggleable()
                     ->color(fn (CompanyStatus $state): string => match ($state) {
                         CompanyStatus::APPROVED => 'success',
                         CompanyStatus::PENDING => 'warning',
