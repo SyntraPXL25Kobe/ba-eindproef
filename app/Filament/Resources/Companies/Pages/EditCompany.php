@@ -56,6 +56,16 @@ class EditCompany extends EditRecord
     {
         $company = $this->record;
 
+        if ($company->status === $status) {
+            Notification::make()
+                ->title('No change')
+                ->body("{$company->display_name} is already {$status->value}.")
+                ->warning()
+                ->send();
+
+            return;
+        }
+
         app(ReviewCompanyAction::class)->execute($company, $status, auth()->user(), $notes);
 
         $this->refreshFormData(['status']);
