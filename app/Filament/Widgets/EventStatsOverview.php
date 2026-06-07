@@ -31,7 +31,7 @@ class EventStatsOverview extends StatsOverviewWidget
                 ->icon(Heroicon::OutlinedPencilSquare)
                 ->url(EventResource::getUrl('index', ['filters' => ['status' => ['value' => EventStatus::DRAFT->value]]])),
 
-           Stat::make('Now', Event::where('status', EventStatus::PUBLISHED)->where('start_time', '<=', $now)->where('end_time', '>=', $now)->count())
+            Stat::make('Now', Event::where('status', EventStatus::PUBLISHED)->where('start_time', '<=', $now)->where('end_time', '>=', $now)->count())
                 ->description('Happening right now')
                 ->color('warning')
                 ->icon(Heroicon::OutlinedBolt)
