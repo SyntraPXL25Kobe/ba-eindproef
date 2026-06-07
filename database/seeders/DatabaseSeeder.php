@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CompanySeeder::class);
         $this->call(RegionSeeder::class);
         $this->call(AddressSeeder::class);
+        $this->call(SectorSeeder::class);
         $this->call(EventTypeSeeder::class);
         $this->call(EventSeeder::class);
 
