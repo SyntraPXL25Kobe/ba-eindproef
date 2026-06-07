@@ -49,4 +49,9 @@ class Event extends Model
     {
         return $this->belongsToMany(Sector::class, 'event_sectors');
     }
+
+    public function favoritedByStudents(): BelongsToMany
+    {
+        return $this->belongsToMany(StudentProfile::class, 'student_favorite_events', 'event_id', 'student_profile_id');
+    }
 }
