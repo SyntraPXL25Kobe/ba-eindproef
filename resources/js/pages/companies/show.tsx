@@ -46,6 +46,9 @@ function formatDate(value: string): string {
 export default function CompanyShow({ company }: Props) {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const eventDays = company.events.map((event) => new Date(event.start_time));
+    const visibleEvents = selectedDate
+        ? company.events.filter((event) => new Date(event.start_time).toDateString() === selectedDate.toDateString())
+        : company.events;
     return (
         <>
             <Head title={company.display_name} />
@@ -91,11 +94,11 @@ export default function CompanyShow({ company }: Props) {
 
                 <div>
                     <h2 className="mb-4 text-xl font-semibold">Aankomende events</h2>
-                    {company.events.length === 0 ? (
-                        <p className="text-muted-foreground">Dit bedrijf heeft nog geen events.</p>
+                    {visibleEvents.length === 0 ? (
+                        <p className="text-muted-foreground">{selectedDate ? 'Geen events op deze dag.' : 'Dit bedrijf heeft nog geen events.'}</p>
                     ) : (
                         <div className="space-y-3">
-                            {company.events.map((event) => (
+                            {visibleEvents.map((event) => (
                                 <Card key={event.id}>
                                     <CardHeader>
                                         <CardTitle className="text-base">{event.title}</CardTitle>
