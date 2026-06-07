@@ -24,6 +24,12 @@ class CompanyForm
                             ->maxLength(220),
                         Textarea::make('description')
                             ->columnSpanFull(),
+                        Select::make('sectors')
+                            ->relationship('sectors', 'name')
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
 
