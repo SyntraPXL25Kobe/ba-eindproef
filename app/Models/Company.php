@@ -31,6 +31,11 @@ class Company extends Model
         return $this->belongsToMany(Occupation::class, 'company_occupations');
     }
 
+    public function sectors(): BelongsToMany
+    {
+        return $this->belongsToMany(Sector::class, 'company_sectors');
+    }
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'company_tags');
