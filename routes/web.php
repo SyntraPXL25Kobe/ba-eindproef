@@ -66,8 +66,4 @@ Route::get('/events/{id}', function ($id) {
 Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
 
 // Detailpagina van een specifiek bedrijf
-Route::get('/companies/{id}', function ($id) {
-    return Inertia::render('companies/show', [
-        'companyId' => $id,
-    ]);
-})->name('companies.show');
+Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
