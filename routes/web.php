@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -62,9 +63,7 @@ Route::get('/events/{id}', function ($id) {
 // --- Bedrijven ---
 
 // Overzichtspagina van alle bedrijven
-Route::get('/companies', function () {
-    return Inertia::render('companies/index');
-})->name('companies.index');
+Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
 
 // Detailpagina van een specifiek bedrijf
 Route::get('/companies/{id}', function ($id) {
