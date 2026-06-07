@@ -9,8 +9,10 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class EventsTable
 {
@@ -68,6 +70,12 @@ class EventsTable
             ->filters([
                 SelectFilter::make('status')
                     ->options(EventStatus::class),
+                Filter::make('now')
+                    ->label('Happening now')
+                    ->query(fn (Builder $query): Builder => $query
+                        ->where('status', EventStatus::PUBLISHED)
+                        ->where('start_time', '<=', now())
+                        ->where('end_time', '>=', now())),
             ])
             ->recordActions([
                 EditAction::make(),
