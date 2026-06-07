@@ -44,3 +44,17 @@ Route::get('/opleiding/{opleiding_id}', function ($opleiding_id) {
 
 // Route voor een specifiek profiel (Ander profiel)
 Route::get('/profiel/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
+// --- Evenementen ---
+
+// Overzichtspagina van alle evenementen
+Route::get('/events', function () {
+    return Inertia::render('events/index');
+})->name('events.index');
+
+// Detailpagina van een specifiek evenement
+Route::get('/events/{id}', function ($id) {
+    return Inertia::render('events/show', [
+        'eventId' => $id,
+    ]);
+})->name('events.show');
