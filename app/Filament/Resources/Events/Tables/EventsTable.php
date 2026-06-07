@@ -2,13 +2,17 @@
 
 namespace App\Filament\Resources\Events\Tables;
 
+use App\Enums\EventStatus;
 use App\Filament\Resources\Events\EventResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class EventsTable
 {
@@ -48,6 +52,11 @@ class EventsTable
                     ->toggleable(),
                 TextColumn::make('status')
                     ->badge()
+                    ->color(fn (EventStatus $state): string => match ($state) {
+                        EventStatus::PUBLISHED => 'success',
+                        EventStatus::DRAFT => 'gray',
+                        EventStatus::CANCELLED => 'danger',
+                    })
                     ->toggleable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -59,7 +68,14 @@ class EventsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-
+                SelectFilter::make('status')
+                    ->options(EventStatus::class),
+                Filter::make('now')
+                    ->label('Happening now')
+                    ->query(fn (Builder $query): Builder => $query
+                        ->where('status', EventStatus::PUBLISHED)
+                        ->where('start_time', '<=', now())
+                        ->where('end_time', '>=', now())),
             ])
             ->recordActions([
                 EditAction::make(),
