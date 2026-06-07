@@ -78,16 +78,7 @@ export default function CompanyShow({ company }: Props) {
                     <CardContent className="space-y-1 text-sm">
                         {company.email && <p>{company.email}</p>}
                         {company.phone && <p>{company.phone}</p>}
-                        {company.website_url && (
-                            <a>
-                                href={company.website_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-primary underline"
-                            
-                                {company.website_url}
-                            </a>
-                        )}
+                        {company.website_url && (<a href={company.website_url} target="_blank" rel="noopener noreferrer" className="text-primary underline">{company.website_url}</a>)}
                     </CardContent>
                 </Card>
 
@@ -95,7 +86,7 @@ export default function CompanyShow({ company }: Props) {
 
                 <div>
                     <h2 className="mb-4 text-xl font-semibold">Event kalender</h2>
-                    <Calendar mode="single" selected={selectedDate} onSelect={setSelectedDate} modifiers={{ hasEvent: eventDays }} modifiersClassNames={{ hasEvent: 'bg-primary/20 font-bold rounded-md' }} className="rounded-md border" />
+                    <Calendar mode="single" selected={selectedDate} onSelect={setSelectedDate} modifiers={{ hasEvent: eventDays }} modifiersClassNames={{ hasEvent: 'bg-primary/20 font-bold rounded-md' }} className="rounded-md border w-fit" />
                 </div>
 
                 <div>
