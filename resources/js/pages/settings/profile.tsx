@@ -1,30 +1,22 @@
 import { Form, Head, usePage } from '@inertiajs/react';
-import { Link } from '@inertiajs/react';
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { edit } from '@/routes/profile';
-import { send } from '@/routes/verification';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { Auth } from '@/types';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
+import { edit } from '@/routes/profile';
 
 type PageProps = {
     auth: Auth;
 };
 
-export default function Profile({
-    mustVerifyEmail,
-    status,
-}: {
-    mustVerifyEmail: boolean;
-    status?: string;
-}) {
+export default function Profile() {
     const { auth } = usePage<PageProps>().props;
 
     const interesses = [
@@ -47,7 +39,9 @@ export default function Profile({
                     {/* De navigatieknoppen bovenaan */}
                     <TabsList className="mb-6 grid w-full grid-cols-2">
                         <TabsTrigger value="account">Mijn Account</TabsTrigger>
-                        <TabsTrigger value="interesses">Mijn Interesses</TabsTrigger>
+                        <TabsTrigger value="interesses">
+                            Mijn Interesses
+                        </TabsTrigger>
                     </TabsList>
 
                     {/* Tabblad 1: De originele account instellingen */}
@@ -57,7 +51,7 @@ export default function Profile({
                             title="Profile"
                             description="Update your name and email address"
                         />
-                        
+
                         <Form
                             {...ProfileController.update.form()}
                             options={{ preserveScroll: true }}
@@ -65,13 +59,22 @@ export default function Profile({
                         >
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name</Label>
-                                <Input id="name" name="name" defaultValue={auth.user.name} />
+                                <Input
+                                    id="name"
+                                    name="name"
+                                    defaultValue={auth.user.name}
+                                />
                                 <InputError message={undefined} />
                             </div>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email address</Label>
-                                <Input id="email" type="email" name="email" defaultValue={auth.user.email} />
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    name="email"
+                                    defaultValue={auth.user.email}
+                                />
                                 <InputError message={undefined} />
                             </div>
 
@@ -79,7 +82,7 @@ export default function Profile({
                                 <Button type="submit">Save</Button>
                             </div>
                         </Form>
-                        
+
                         <DeleteUser />
                     </TabsContent>
 
