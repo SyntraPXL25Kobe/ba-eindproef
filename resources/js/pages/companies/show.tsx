@@ -2,6 +2,8 @@ import { Head } from '@inertiajs/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { useState } from 'react';
+import { Calendar } from '@/components/ui/calendar';
 
 interface Sector {
     id: number;
@@ -42,6 +44,8 @@ function formatDate(value: string): string {
 }
 
 export default function CompanyShow({ company }: Props) {
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+    const eventDays = company.events.map((event) => new Date(event.start_time));
     return (
         <>
             <Head title={company.display_name} />
@@ -88,6 +92,11 @@ export default function CompanyShow({ company }: Props) {
                 </Card>
 
                 <Separator />
+
+                <div>
+                    <h2 className="mb-4 text-xl font-semibold">Event kalender</h2>
+                    <Calendar mode="single" selected={selectedDate} onSelect={setSelectedDate} modifiers={{ hasEvent: eventDays }} modifiersClassNames={{ hasEvent: 'bg-primary/20 font-bold rounded-md' }} className="rounded-md border" />
+                </div>
 
                 <div>
                     <h2 className="mb-4 text-xl font-semibold">Aankomende events</h2>
