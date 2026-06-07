@@ -58,3 +58,17 @@ Route::get('/events/{id}', function ($id) {
         'eventId' => $id,
     ]);
 })->name('events.show');
+
+// --- Bedrijven ---
+
+// Overzichtspagina van alle bedrijven
+Route::get('/companies', function () {
+    return Inertia::render('companies/index');
+})->name('companies.index');
+
+// Detailpagina van een specifiek bedrijf
+Route::get('/companies/{id}', function ($id) {
+    return Inertia::render('companies/show', [
+        'companyId' => $id,
+    ]);
+})->name('companies.show');
