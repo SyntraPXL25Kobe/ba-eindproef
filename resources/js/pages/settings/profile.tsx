@@ -10,6 +10,9 @@ import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 import type { Auth } from '@/types';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 type PageProps = {
     auth: Auth;
@@ -24,6 +27,15 @@ export default function Profile({
 }) {
     const { auth } = usePage<PageProps>().props;
 
+    const interesses = [
+        'Full Stack Development',
+        'Laravel',
+        'WordPress',
+        'Tailwind CSS',
+        'PHP',
+        'Supabase',
+    ];
+
     return (
         <>
             <Head title="Profile settings" />
@@ -31,99 +43,63 @@ export default function Profile({
             <h1 className="sr-only">Profile settings</h1>
 
             <div className="space-y-6">
-                <Heading
-                    variant="small"
-                    title="Profile"
-                    description="Update your name and email address"
-                />
+                <Tabs defaultValue="account" className="w-full">
+                    {/* De navigatieknoppen bovenaan */}
+                    <TabsList className="mb-6 grid w-full grid-cols-2">
+                        <TabsTrigger value="account">Mijn Account</TabsTrigger>
+                        <TabsTrigger value="interesses">Mijn Interesses</TabsTrigger>
+                    </TabsList>
 
-                <Form
-                    {...ProfileController.update.form()}
-                    options={{
-                        preserveScroll: true,
-                    }}
-                    className="space-y-6"
-                >
-                    {({ processing, errors }) => (
-                        <>
+                    {/* Tabblad 1: De originele account instellingen */}
+                    <TabsContent value="account" className="space-y-6">
+                        <Heading
+                            variant="small"
+                            title="Profile"
+                            description="Update your name and email address"
+                        />
+                        
+                        <Form
+                            {...ProfileController.update.form()}
+                            options={{ preserveScroll: true }}
+                            className="space-y-6"
+                        >
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name</Label>
-
-                                <Input
-                                    id="name"
-                                    className="mt-1 block w-full"
-                                    defaultValue={auth.user.name}
-                                    name="name"
-                                    required
-                                    autoComplete="name"
-                                    placeholder="Full name"
-                                />
-
-                                <InputError
-                                    className="mt-2"
-                                    message={errors.name}
-                                />
+                                <Input id="name" name="name" defaultValue={auth.user.name} />
+                                <InputError message={undefined} />
                             </div>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email address</Label>
-
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    className="mt-1 block w-full"
-                                    defaultValue={auth.user.email}
-                                    name="email"
-                                    required
-                                    autoComplete="username"
-                                    placeholder="Email address"
-                                />
-
-                                <InputError
-                                    className="mt-2"
-                                    message={errors.email}
-                                />
+                                <Input id="email" type="email" name="email" defaultValue={auth.user.email} />
+                                <InputError message={undefined} />
                             </div>
-
-                            {mustVerifyEmail &&
-                                auth.user.email_verified_at === null && (
-                                    <div>
-                                        <p className="-mt-4 text-sm text-muted-foreground">
-                                            Your email address is unverified.{' '}
-                                            <Link
-                                                href={send()}
-                                                as="button"
-                                                className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-                                            >
-                                                Click here to re-send the
-                                                verification email.
-                                            </Link>
-                                        </p>
-
-                                        {status ===
-                                            'verification-link-sent' && (
-                                            <div className="mt-2 text-sm font-medium text-green-600">
-                                                A new verification link has been
-                                                sent to your email address.
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
 
                             <div className="flex items-center gap-4">
-                                <Button
-                                    disabled={processing}
-                                    data-test="update-profile-button"
-                                >
-                                    Save
-                                </Button>
+                                <Button type="submit">Save</Button>
                             </div>
-                        </>
-                    )}
-                </Form>
-            </div>
+                        </Form>
+                        
+                        <DeleteUser />
+                    </TabsContent>
 
-            <DeleteUser />
+                    {/* Tabblad 2: Jouw custom UI voor interesses */}
+                    <TabsContent value="interesses">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Mijn Interesses</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex flex-wrap gap-2">
+                                    {interesses.map((interesse, index) => (
+                                        <Badge key={index}>{interesse}</Badge>
+                                    ))}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                </Tabs>
+            </div>
         </>
     );
 }

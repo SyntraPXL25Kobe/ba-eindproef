@@ -16,20 +16,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/settings.php';
 
-// 1. Profielpagina (Eigen profiel)
-Route::get('/profiel', [ProfileController::class, 'index'])->name('profile.index');
-
-// 2. Favorietenpagina
+// Favorietenpagina
 Route::get('/favorieten', function () {
     return Inertia::render('favorites/index');
 })->name('favorites.index');
 
-// 3. Interesses Overzicht (Grid)
+// Interesses Overzicht (Grid)
 Route::get('/interesses', function () {
     return Inertia::render('interests/index');
 })->name('interests.index');
 
-// 4. Opleidingen per Categorie (Lijst)
+// Opleidingen per Categorie (Lijst)
 // We geven de parameter {categorie_id} door aan de React component
 Route::get('/interesses/{categorie_id}', function ($categorie_id) {
     return Inertia::render('interests/category', [
@@ -37,7 +34,7 @@ Route::get('/interesses/{categorie_id}', function ($categorie_id) {
     ]);
 })->name('interests.category');
 
-// 5. Opleiding Detailpagina
+// Opleiding Detailpagina
 // We geven de parameter {opleiding_id} door aan de React component
 Route::get('/opleiding/{opleiding_id}', function ($opleiding_id) {
     return Inertia::render('programs/detail', [
