@@ -17,6 +17,7 @@ class EventController extends Controller
         $selectedSector = $request->integer('sector') ?: null;
         $selectedType = $request->integer('type') ?: null;
         $selectedLocation = $request->string('location')->toString() ?: null;
+        $selectedPeriod = $request->string('period')->toString() ?: null;
 
         $events = Event::query()
             ->where('status', EventStatus::PUBLISHED)
@@ -28,6 +29,8 @@ class EventController extends Controller
             ->when($selectedType, fn ($query) => $query->where('event_type_id', $selectedType))
             ->when($selectedLocation === 'online', fn ($query) => $query->where('is_online', true))
             ->when($selectedLocation === 'offline', fn ($query) => $query->where('is_online', false))
+            ->when($selectedPeriod === 'week', fn ($query) => $query->where('start_time', '<=', now()->addWeek()))
+            ->when($selectedPeriod === 'month', fn ($query) => $query->where('start_time', '<=', now()->addMonth()))
             ->with(['company:id,display_name', 'eventType:id,name', 'sectors:id,name'])
             ->orderBy('start_time')
             ->get(['id', 'company_id', 'event_type_id', 'title', 'description', 'start_time', 'end_time', 'is_online']);
@@ -42,6 +45,7 @@ class EventController extends Controller
             'selectedSector' => $selectedSector,
             'selectedType' => $selectedType,
             'selectedLocation' => $selectedLocation,
+            'selectedPeriod' => $selectedPeriod,
         ]);
     }
 }
