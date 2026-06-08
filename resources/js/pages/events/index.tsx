@@ -32,6 +32,7 @@ interface Props {
     selectedSector: number | null;
     selectedType: number | null;
     selectedLocation: string | null;
+    selectedPeriod: string | null;
 }
 
 function formatDate(value: string): string {
@@ -41,15 +42,17 @@ function formatDate(value: string): string {
     });
 }
 
-export default function EventsIndex({ events, sectors, eventTypes, selectedSector, selectedType, selectedLocation }: Props) {
-    function applyFilters(next: { sector?: number | null; type?: number | null; location?: string | null }) {
+export default function EventsIndex({ events, sectors, eventTypes, selectedSector, selectedType, selectedLocation, selectedPeriod }: Props) {
+    function applyFilters(next: { sector?: number | null; type?: number | null; location?: string | null; period?: string | null }) {
         const sector = next.sector !== undefined ? next.sector : selectedSector;
         const type = next.type !== undefined ? next.type : selectedType;
         const location = next.location !== undefined ? next.location : selectedLocation;
+        const period = next.period !== undefined ? next.period : selectedPeriod;
         const params: Record<string, string | number> = {};
         if (sector) params.sector = sector;
         if (type) params.type = type;
         if (location) params.location = location;
+        if (period) params.period = period;
         router.get('/events', params, { preserveState: true, preserveScroll: true });
     }
 
@@ -84,7 +87,7 @@ export default function EventsIndex({ events, sectors, eventTypes, selectedSecto
                     ))}
                 </div>
 
-                <div className="mb-6 flex flex-wrap gap-2">
+                <div className="mb-3 flex flex-wrap gap-2">
                     <span className="self-center text-sm font-medium text-muted-foreground">Locatie:</span>
                     <Button variant={selectedLocation === null ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ location: null })}>
                         Alle
@@ -94,6 +97,19 @@ export default function EventsIndex({ events, sectors, eventTypes, selectedSecto
                     </Button>
                     <Button variant={selectedLocation === 'offline' ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ location: 'offline' })}>
                         Op locatie
+                    </Button>
+                </div>
+
+                <div className="mb-6 flex flex-wrap gap-2">
+                    <span className="self-center text-sm font-medium text-muted-foreground">Periode:</span>
+                    <Button variant={selectedPeriod === null ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ period: null })}>
+                        Alle
+                    </Button>
+                    <Button variant={selectedPeriod === 'week' ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ period: 'week' })}>
+                        Deze week
+                    </Button>
+                    <Button variant={selectedPeriod === 'month' ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ period: 'month' })}>
+                        Deze maand
                     </Button>
                 </div>
 
