@@ -48,4 +48,18 @@ class EventController extends Controller
             'selectedPeriod' => $selectedPeriod,
         ]);
     }
+
+    public function show(Event $event): Response
+    {
+        $event->load([
+            'company:id,display_name',
+            'eventType:id,name',
+            'sectors:id,name',
+            'address',
+        ]);
+
+        return Inertia::render('events/show', [
+            'event' => $event,
+        ]);
+    }
 }
