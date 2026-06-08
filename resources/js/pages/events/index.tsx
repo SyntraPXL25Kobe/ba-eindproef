@@ -8,6 +8,11 @@ interface Sector {
     name: string;
 }
 
+interface EventType {
+    id: number;
+    name: string;
+}
+
 interface EventItem {
     id: number;
     title: string;
@@ -23,7 +28,9 @@ interface EventItem {
 interface Props {
     events: EventItem[];
     sectors: Sector[];
+    eventTypes: EventType[];
     selectedSector: number | null;
+    selectedType: number | null;
 }
 
 function formatDate(value: string): string {
@@ -33,9 +40,14 @@ function formatDate(value: string): string {
     });
 }
 
-export default function EventsIndex({ events, sectors, selectedSector }: Props) {
-    function filterBySector(sectorId: number | null) {
-        router.get('/events', sectorId ? { sector: sectorId } : {}, { preserveState: true, preserveScroll: true });
+export default function EventsIndex({ events, sectors, eventTypes, selectedSector, selectedType }: Props) {
+    function applyFilters(next: { sector?: number | null; type?: number | null }) {
+        const sector = next.sector !== undefined ? next.sector : selectedSector;
+        const type = next.type !== undefined ? next.type : selectedType;
+        const params: Record<string, number> = {};
+        if (sector) params.sector = sector;
+        if (type) params.type = type;
+        router.get('/events', params, { preserveState: true, preserveScroll: true });
     }
 
     return (
@@ -45,13 +57,26 @@ export default function EventsIndex({ events, sectors, selectedSector }: Props) 
             <div className="mx-auto max-w-5xl p-8">
                 <h1 className="mb-6 text-2xl font-bold">Events</h1>
 
-                <div className="mb-6 flex flex-wrap gap-2">
-                    <Button variant={selectedSector === null ? 'default' : 'outline'} size="sm" onClick={() => filterBySector(null)}>
+                <div className="mb-3 flex flex-wrap gap-2">
+                    <span className="self-center text-sm font-medium text-muted-foreground">Sector:</span>
+                    <Button variant={selectedSector === null ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ sector: null })}>
                         Alle
                     </Button>
                     {sectors.map((sector) => (
-                        <Button key={sector.id} variant={selectedSector === sector.id ? 'default' : 'outline'} size="sm" onClick={() => filterBySector(sector.id)}>
+                        <Button key={sector.id} variant={selectedSector === sector.id ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ sector: sector.id })}>
                             {sector.name}
+                        </Button>
+                    ))}
+                </div>
+
+                <div className="mb-6 flex flex-wrap gap-2">
+                    <span className="self-center text-sm font-medium text-muted-foreground">Type:</span>
+                    <Button variant={selectedType === null ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ type: null })}>
+                        Alle
+                    </Button>
+                    {eventTypes.map((type) => (
+                        <Button key={type.id} variant={selectedType === type.id ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ type: type.id })}>
+                            {type.name}
                         </Button>
                     ))}
                 </div>
