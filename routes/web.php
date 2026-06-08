@@ -53,11 +53,7 @@ Route::get('/profiel/{id}', [ProfileController::class, 'show'])->name('profile.s
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 
 // Detailpagina van een specifiek evenement
-Route::get('/events/{id}', function ($id) {
-    return Inertia::render('events/show', [
-        'eventId' => $id,
-    ]);
-})->name('events.show');
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 // --- Bedrijven ---
 
