@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -49,9 +50,7 @@ Route::get('/profiel/{id}', [ProfileController::class, 'show'])->name('profile.s
 // --- Evenementen ---
 
 // Overzichtspagina van alle evenementen
-Route::get('/events', function () {
-    return Inertia::render('events/index');
-})->name('events.index');
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
 
 // Detailpagina van een specifiek evenement
 Route::get('/events/{id}', function ($id) {
