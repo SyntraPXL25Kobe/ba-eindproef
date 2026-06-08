@@ -31,6 +31,7 @@ interface Props {
     eventTypes: EventType[];
     selectedSector: number | null;
     selectedType: number | null;
+    selectedLocation: string | null;
 }
 
 function formatDate(value: string): string {
@@ -40,13 +41,15 @@ function formatDate(value: string): string {
     });
 }
 
-export default function EventsIndex({ events, sectors, eventTypes, selectedSector, selectedType }: Props) {
-    function applyFilters(next: { sector?: number | null; type?: number | null }) {
+export default function EventsIndex({ events, sectors, eventTypes, selectedSector, selectedType, selectedLocation }: Props) {
+    function applyFilters(next: { sector?: number | null; type?: number | null; location?: string | null }) {
         const sector = next.sector !== undefined ? next.sector : selectedSector;
         const type = next.type !== undefined ? next.type : selectedType;
-        const params: Record<string, number> = {};
+        const location = next.location !== undefined ? next.location : selectedLocation;
+        const params: Record<string, string | number> = {};
         if (sector) params.sector = sector;
         if (type) params.type = type;
+        if (location) params.location = location;
         router.get('/events', params, { preserveState: true, preserveScroll: true });
     }
 
@@ -69,7 +72,7 @@ export default function EventsIndex({ events, sectors, eventTypes, selectedSecto
                     ))}
                 </div>
 
-                <div className="mb-6 flex flex-wrap gap-2">
+                <div className="mb-3 flex flex-wrap gap-2">
                     <span className="self-center text-sm font-medium text-muted-foreground">Type:</span>
                     <Button variant={selectedType === null ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ type: null })}>
                         Alle
@@ -79,6 +82,19 @@ export default function EventsIndex({ events, sectors, eventTypes, selectedSecto
                             {type.name}
                         </Button>
                     ))}
+                </div>
+
+                <div className="mb-6 flex flex-wrap gap-2">
+                    <span className="self-center text-sm font-medium text-muted-foreground">Locatie:</span>
+                    <Button variant={selectedLocation === null ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ location: null })}>
+                        Alle
+                    </Button>
+                    <Button variant={selectedLocation === 'online' ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ location: 'online' })}>
+                        Online
+                    </Button>
+                    <Button variant={selectedLocation === 'offline' ? 'default' : 'outline'} size="sm" onClick={() => applyFilters({ location: 'offline' })}>
+                        Op locatie
+                    </Button>
                 </div>
 
                 {events.length === 0 ? (
